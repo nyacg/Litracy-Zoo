@@ -39,6 +39,7 @@ function generateWord(difficulty) {
 		}
 	}
 	dis.innerHTML = out;
+	moveCursor(0);
 }
 
 function check() {
