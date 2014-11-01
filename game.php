@@ -4,10 +4,42 @@
 
 var level = 1;
 var word = "";
+var mode = 0;  //0 for words, 1 for maths, 2 for vocabulary
 
-function shuffle(o){
-    for(var j, x, i = o.length; i; j = Math.floor(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
-    return o;
+function generateMath(difficulty) {
+	var out = "";
+	var first = Math.floor((Math.random() * 5) * difficulty + 1);
+	var second = Math.floor((Math.random() * 5) * difficulty + 1);
+	word = (first + second) + "";
+	out += "Solve this: " + first + " + " + second + " ";
+	out += "<input type=\"text\" id=\"l0\" onkeyup=\"maths(" + word.length + ")\">";
+	var dis = document.getElementById('display');
+	dis.innerHTML = out;
+	moveCursor(0);
+	mode = 1;
+}
+
+function generateVocab() {
+	var dis = document.getElementById('display');
+	var vocabulary = ["<b>supermarket</b> - is a shop selling foods and household goods", 
+	"<b>library</b> - is room in a house where books are kept, not everyone has got one", 
+	"<b>university</b> - is a school where students study for expensive degrees", 
+	"<b>vocabulary</b> - is a body of words used in a particular language",
+	"<b>motivation</b> - is a reason for acting or behaving in a particular way",
+	"<b>google</b> - is to search, copy, paste and claim it's your work!"];
+	rand = Math.floor((Math.random() * 6));
+	while(rand == level) {
+		rand = Math.floor((Math.random() * 6));
+	}
+	level = rand;
+	dis.innerHTML = vocabulary[level];
+	mode = 2;
+}
+
+function maths(theLength) {
+	if(theLength == document.getElementById("l0").value.length) {
+		check();
+	}
 }
 
 function moveCursor(id) {
@@ -40,28 +72,36 @@ function generateWord(difficulty) {
 	}
 	dis.innerHTML = out;
 	moveCursor(0);
+	mode = 0;
 }
 
 function check() {
-	var answer = "";
-	for(i = 0; i < word.length; i++) {
-		answer += document.getElementById("l" + i).value
-	}
-	if(answer == word) {
-		if(level < 5) {
-			level += 1;
+	if(mode == 0) {
+		var answer = "";
+		for(i = 0; i < word.length; i++) {
+			answer += document.getElementById("l" + i).value
 		}
-		alert("Well Done, let's try a new word :-)");
-		generateWord(level);
+		if(answer == word) {
+			if(level < 5) {
+				level += 1;
+			}
+			alert("Well Done, let's try a new word :-)");
+			generateWord(level);
+		}
+		else {
+			alert("Sorry");
+		}
 	}
 	else {
-		alert("Sorry");
+		if(document.getElementById("l0").value == word) {
+			alert("Well Done");
+			level += 1;
+			generateMath(level);
+		}
+		else {
+			alert("Try again");
+		}
 	}
-}
-
-function goBack() {
-	level -= 1;
-	generateWord(level);
 }
 
 </script>
@@ -70,10 +110,12 @@ function goBack() {
 
 <div id="display">
 </div>
-<!--
-<input onclick="check()" type="button" name="button" value="Check Answer">
 
-<input onclick="goBack()" type="button" name="button" value="Back to Previous Level">
--->
+<input onclick="generateWord(1)" type="button" name="button" value="Play Words">
+
+<input onclick="generateMath(1)" type="button" name="button" value="Play Maths">
+
+<input onclick="generateVocab()" type="button" name="button" value="Play Vocabulary">
+
 </body>
 </html>
