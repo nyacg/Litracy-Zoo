@@ -76,15 +76,17 @@ function generateWord(difficulty) {
     //words = shuffle(words);
 	var dis = document.getElementById('display');
 	var out = "";
-	
+
 	for(i = 0; i < words.length; i++) {
 		if(levels[i] == difficulty) {
 			var w = words[i];
 			word = w;
+			out += "<img src=\"assets/images/game/" + word + ".png\" style=\"width:304px;height:328px\">";
+			out += "<input type=\"button\" value=\"Hint\">";
 			level = difficulty;
-			out += "Guess the word! ->" + word;
+			out += " Guess the word:";
 			for(j = 0; j < w.length; j++) {
-				out += "<input onkeyup=\"moveCursor(" + (j + 1) + ")\" type=\"text\" id=\"l" + j + "\">"
+				out += "<input onkeyup=\"moveCursor(" + (j + 1) + ")\" type=\"text\" id=\"l" + j + "\" style=\"width:25px;\">"
 			}
 			break;
 		}
