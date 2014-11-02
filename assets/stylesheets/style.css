@@ -82,6 +82,17 @@
 	position: absolute;
 }
 
+.textbox { 
+     background: #f87500; 
+     border-radius: 2em; 
+     border: 3px solid #666; 
+     color: #000000; 
+     padding-left: 0.2em;
+     padding-right: 0.2em; 
+     outline: none; 
+     box-shadow: 0 4px 6px -5px hsl(0, 0%, 40%), inset 0px 4px 6px -5px hsl(0, 0%, 2%) 
+} 
+
 .animal-icon.active {
 	box-sizing:border-box;
 	-moz-box-sizing:border-box;
