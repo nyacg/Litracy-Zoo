@@ -1,4 +1,6 @@
 $(document).ready(function(){
+	var hat = false;
+	var cape = false;
 	//setSize();
 	$('#name-input').focus();
 
@@ -50,14 +52,33 @@ $(document).ready(function(){
 	});
 
 	$('body').not($('#inventory')).click(function(event){
-		event.stopPropagation();
-		$('#inventory').animate({right: '-=25%'});
+		//console.log($('#inventory').position()['left'] - $('#canvas').width());
+		if($('#inventory').position()['left'] - $('#canvas').width()<0 && $('#inventory').width() != 20){
+			event.stopPropagation();
+			$('#inventory').animate({right: '-=25%'});	
+			var audio = new Audio('./assets/sounds/click.wav');
+			audio.play();
+		}
 	});
 
-	$('#play-game-button').click(function(){
+	$('#play-game-button').click(function(event){
+		event.stopPropagation();
 		console.log('time to play');
 		$('#main-page').hide();
 		$('#game-page').show();
+		drawAnimal(hat, cape);
+	});
+
+	$('#i-hat').click(function(){
+		$(this).hide();
+		$('#a-hat').show();
+		hat = true;
+	});
+
+	$('#i-cape').click(function(){
+		$(this).hide();
+		$('#a-cape').show();
+		cape = true;
 	});
 });
 
@@ -76,19 +97,20 @@ function nameToPet(){
 function petToMain(){
 	$('#pet-page').hide();
 	$('#main-page').show();
-	drawAnimal();
+	drawAnimal(false, false);
 }
 
-function drawAnimal(){
+function drawAnimal(hat, cape){
 	var pos = [[1, 11.5, 10], [6, 11, 16], [11, 13, 9], [16, 9, -8], [22, 4, -8], [28, 4, 9], [29, 10, 2]];
 	
 	for(i=0; i<6; i++){
 		//console.log(pos[i,1]);
 		var rotate = " -ms-transform: rotate(" + pos[i][2] + "deg); -webkit-transform: rotate(" + pos[i][2] + "deg); transform: rotate(" + pos[i][2] + "deg);"
-		$("<img src='./assets/images/c_seg.png' class='c-seg' style='right: " + pos[i][0] + "%; bottom: " + pos[i][1] + "%; width: 12%; " + rotate + "'/>").appendTo($('#animal'));
+		$("<img src='./assets/images/c_seg.png' class='c-seg' style='right: " + pos[i][0] + "%; bottom: " + pos[i][1] + "%; width: 12%; " + rotate + "'/>").appendTo($('.animal'));
 	}
-	$("<img src='./assets/images/c_face.png' class='c-seg face' style='right: " + pos[6][0] + "%; bottom: " + pos[6][1] + "%; width: 14%; " + rotate + "'/>").appendTo($('#animal'));
-	$("<img src='./assets/images/c_hat1.png' class='c-seg face accessory hidden' style='right: " + (pos[6][0]) + "%; bottom: " + (pos[6][1]) + "%; width: 14%; " + rotate + "/>").appendTo($('#animal'));
+	$("<img src='./assets/images/c_cape.png' id='a-cape' class='c-seg face accessory " + (cape == false ? "hidden" : "") + "' style='right: " + 4 + "%; bottom: " + 17 + "%; width: 30%; '/>").appendTo($('.animal'));
+	$("<img src='./assets/images/c_face.png' class='c-seg face' style='right: " + pos[6][0] + "%; bottom: " + pos[6][1] + "%; width: 14%; " + rotate + "'/>").appendTo($('.animal'));
+	$("<img src='./assets/images/c_hat1.png' id='a-hat' class='c-seg face accessory " + (hat == false ? "hidden" : "") + "' style='right: " + pos[6][0] + "%; bottom: " + pos[6][1] + "%; width: 14%; " + rotate + "'/>").appendTo($('.animal'));
 }
 
 function wiggle(){

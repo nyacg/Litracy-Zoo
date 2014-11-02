@@ -26,19 +26,23 @@
 			</div>
 
 			<div id='main-page' class='hidden'>
-				<div id='play-game-button'><h1 >Play Game</h1>
+				<div id='play-game-button' class='click'><h1>Play Game</h1></div>
 				<div id='tree-area'></div>
-				<div id='animal'></div>
+				<div class='animal'></div>
 				<img src='./assets/images/inventory.png' width='5%' height='auto' id='inventory-icon' class='click'/>
+				<h3 id='coins'>55</h3>
 				<img src='./assets/images/coin.png' width='5%' height='auto' id='coin-icon'/>
 				<div id='inventory'>
-					<img src='./assets/images/c_hat1.png' width='80%' class='click'/>
+					<img src='./assets/images/c_hat1.png' width='80%' class='click' id='i-hat'/>
+					<img src='./assets/images/c_cape.png' width='80%' class='click i-accessory' id='i-cape'/>
+					<h3 class='small-text'>Buy more stuff</h3>
 				</div>
 
 			</div>
 
 			<div id='game-page' class='hidden'>
 				<!-- game objects go here -->
+				<div class='animal'></div>
 			</div>
 
 		</div>
