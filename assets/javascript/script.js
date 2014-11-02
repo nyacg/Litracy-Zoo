@@ -7,10 +7,30 @@ $(document).ready(function(){
 		nameToPet();
 	});
 
-	$(document).keypress(function(e) {
+	$('#name-input').keypress(function(e) {
 		if(e.which == 13){
 			nameToPet();
 		}
+	});
+
+	$('#go-button-2').click(function(){
+		petToMain();
+	});
+
+	$('#animal-name').keypress(function(e) {
+		if(e.which == 13){
+			petToMain();
+		}
+	});
+
+	$('.animal-icon').click(function(){
+		$('.animal-icon').not($(this)).removeClass('active');
+		$(this).addClass('active');
+		$('#animal-name').focus();
+	});
+
+	$(document).on("click", '.c-seg', function(){
+		wiggle();
 	});
 
 });
@@ -24,4 +44,32 @@ function setSize(){
 function nameToPet(){
 	$('#name-page').hide();
 	$('#pet-page').show();
+	$('#animal-name').focus();
+}
+
+function petToMain(){
+	$('#pet-page').hide();
+	$('#main-page').show();
+	drawAnimal();
+}
+
+function drawAnimal(){
+
+	var pos = [[1, 11.5, 10], [6, 11, 16], [11, 13, 9], [16, 9, -8], [22, 4, -8], [28, 4, 9], [29, 10, 2]];
+	
+	for(i=0; i<6; i++){
+		//console.log(pos[i,1]);
+		var rotate = " -ms-transform: rotate(" + pos[i][2] + "deg); -webkit-transform: rotate(" + pos[i][2] + "deg); transform: rotate(" + pos[i][2] + "deg);"
+		$("<img src='./assets/images/c_seg.png' class='c-seg' style='right: " + pos[i][0] + "%; bottom: " + pos[i][1] + "%; width: 12%; " + rotate + "'/>").appendTo($('#animal'));
+	}
+	$("<img src='./assets/images/c_face.png' class='c-seg face' style='right: " + pos[6][0] + "%; bottom: " + pos[6][1] + "%; width: 14%; " + rotate + "'/>").appendTo($('#animal'));
+	$("<img src='./assets/images/c_hat1.png' class='c-seg face accessory' style='right: " + (pos[6][0]) + "%; bottom: " + (pos[6][1]) + "%; width: 14%; " + rotate + "'/>").appendTo($('#animal'));
+}
+
+function wiggle(){
+	console.log("shake it!");
+	$('.c-seg').not('.face').each(function(){
+		$(this).addClass('shake');
+		$(this).removeClass('shake');
+	});
 }
