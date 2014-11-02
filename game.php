@@ -71,7 +71,7 @@ function moveCursor(id) {
 }
 
 function generateWord(difficulty) {
-	var words = ['apple','banana','boy','girl','sun','balloon','cherries','horse','zebra','wheel','jellyfish','moon','pig','book','popcorn','cracker','cobweb','milk','flower','snake'];
+	var words = ['apple','banana','boy','girl','sun','baloon','cherries','horse','zebra','wheel','jellyfish','moon','pig','book','popcorn','cracker','cobweb','milk','flower','snake'];
     var levels = [2,2,1,1,1,4,5,3,3,4,5,2,1,2,4,5,4,2,3,3];
     //words = shuffle(words);
 	var dis = document.getElementById('display');
@@ -96,6 +96,10 @@ function generateWord(difficulty) {
 	mode = 0;
 }
 
+function messageBox(message) {
+	document.getElementById("message").innerHTML = message;
+}
+
 function check(arg) {
 	switch(mode) {
 		case 0: var answer = "";
@@ -104,30 +108,30 @@ function check(arg) {
 				}
 				if(answer == word) {
 					level = ((level + 1) % 5) + 1;
-					alert("Well Done, let's try a new word :-)");
+					messageBox("Well Done, let's try a new word :-)");
 					generateWord(level);
 				}
 				else {
-					alert("Sorry");
+					messageBox("Sorry");
 				}
 		break;
 		case 1: if(document.getElementById("l0").value == word) {
-					alert("Well Done");
+					messageBox("Well Done :-)");
 					level = (level + 1) % 5;
 					generateMath(level);
 				}
 				else {
-					alert("Try again");
+					messageBox("Try again...");
 				}
 		break;
 		case 2: if(arg == word) {
-					alert("Well Done");
+					messageBox("Well Done :-)");
 					level = (level + 1) % 5;
 					generateSpell(level);
 					
 				}
 				else {
-					alert("Try again");
+					messageBox("Try again...");
 				}
 		break;
 	}
@@ -136,6 +140,9 @@ function check(arg) {
 </script>
 </head>
 <body onload="generateWord(1)">
+
+<div id="message" style="font-size: 200%;">
+</div>
 
 <div id="display">
 </div>
