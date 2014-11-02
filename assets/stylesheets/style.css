@@ -6,6 +6,10 @@
 	padding: 2% 5% 0 5%;
 }
 
+#main-page {
+	overflow-x: hidden;
+}
+
 #go-button:active{
 	margin-left: 25px;
 }
@@ -40,6 +44,17 @@
 	right: 2%;
 }
 
+#play-game-button {
+	width: 50%;
+	height: 50%;
+}
+
+#coin-icon {
+	position: absolute;
+	right: 10%;
+	top: 2%;
+}
+
 .hidden {
 	display: none;
 }
@@ -72,7 +87,7 @@ body {
 	font-family: 'Signika';
 	color: black;
 	font-size: 2.5em;
-	overflow: none;
+	overflow: hidden;
 
 	background: url(../images/bg.png) no-repeat center center fixed; 
 	-webkit-background-size: cover;
@@ -86,6 +101,7 @@ body {
 	-moz-user-select: none;
 	-ms-user-select: none;
 	user-select: none;
+
 }
 
 input {
