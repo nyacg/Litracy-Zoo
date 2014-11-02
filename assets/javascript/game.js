@@ -1,6 +1,7 @@
 var level = 1;
 var word = "";
 var mode = 0;  //0 for words, 1 for maths, 2 for spelling
+var score = 0;
 
 function generateSpell(diff) {
 	var out = "";
@@ -58,38 +59,57 @@ function maths(theLength) {
 	}
 }
 
-function moveCursor(id) {
-	if(id == word.length) {
-		check("Argument not used");
-	}
-	else {
-		document.getElementById("l" + id).focus();
-	}
-}
 
 function generateWord(difficulty) {
+	$('.game-button').hide();
+	$('#word-game').show();
+	$('#keyboard').empty();
+	$('#answer').empty();
+	$('#image-holder').empty();
+
 	var words = ['apple','banana','boy','girl','sun','baloon','cherries','horse','zebra','wheel','jellyfish','moon','pig','book','popcorn','cracker','cobweb','milk','flower','snake'];
     var levels = [2,2,1,1,1,4,5,3,3,4,5,2,1,2,4,5,4,2,3,3];
     //words = shuffle(words);
 	var dis = document.getElementById('display');
-	var out = "";
+	
 
 	for(i = 0; i < words.length; i++) {
 		if(levels[i] == difficulty) {
-			var w = words[i];
-			word = w;
-			out += "<img src=\"assets/images/game/" + word + ".png\" style=\"width:304px;height:328px\">";
-			out += "<input type=\"button\" value=\"Hint\">";
+			word = words[i];
+			
+			$("<img src='./assets/images/game/" + word + ".png'/>").appendTo('#image-holder');
 			level = difficulty;
-			out += " Guess the word:";
-			for(j = 0; j < w.length; j++) {
-				out += "<input onkeyup=\"moveCursor(" + (j + 1) + ")\" type=\"text\" id=\"l" + j + "\" style=\"width:25px;\">"
+
+			$('#message-box .message').text("Guess the word!");
+
+			//generate letter underlines
+			for(j=0; j<word.length; j++){
+				$("<div style='left: " + ((word.length -1)* 15 + 5 - j*15 ) + "%'></div>").appendTo($('#answer'));
 			}
+
+			var letters = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+			var w_word = word;
+			while(w_word.length > 0){
+				var index = Math.floor(Math.random()*letters.length);
+				if(letters[index] == 0){
+					letters[index] = w_word[0];
+					w_word = w_word.substr(1);
+				}
+			}
+			for(l=0; l<letters.length; l++){
+				if(letters[l] == 0){
+					letters[l] = String.fromCharCode(Math.floor(Math.random()*26)+97);
+				}
+			}
+
+			//generate keyboard keys
+			for(k=0; k<12; k++){
+				$("<div class='key-holder'><img class='key click' src='./assets/images/letter_placeholder.png' /><h2 style='color: black; margin: 0; position: absolute; top: 10%; left: 35%;' class='click'>" + letters[k] + "</h2></div>").appendTo($('#keyboard'));
+			}
+
 			break;
 		}
 	}
-	dis.innerHTML = out;
-	moveCursor(0);
 	mode = 0;
 }
 

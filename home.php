@@ -26,7 +26,7 @@
 			</div>
 
 			<div id='main-page' class='hidden'>
-				<div id='play-game-button' class='click'><h1>Play Game</h1></div>
+				<div id='play-game-button' class='click'><h1>Play Games, earn coins</h1></div>
 				<div id='tree-area'></div>
 				<div class='animal'></div>
 				<img src='./assets/images/inventory.png' width='5%' height='auto' id='inventory-icon' class='click'/>
@@ -42,6 +42,26 @@
 
 			<div id='game-page' class='hidden'>
 				<!-- game objects go here -->
+
+				<div id='message-box'>
+					<h2 class='message'></h2>
+					<h2 id='score'>Score: 0</h2>
+				</div>
+
+				<div id='word-game' class='hidden'>
+					<div id='image-holder'></div>
+					<div id='keyboard'></div>
+					<div id='answer'></div>	
+				</div>
+
+				<h2 onclick="generateWord(1)" class='game-button click'>Play Word Game</h2>
+
+				<h2 onclick="generateMath(1)" class='game-button click'>Play Maths Game</h2>
+
+				<h2 onclick="generateVocab()" class='game-button click'>Word of the day</h2>
+
+				<h2 onclick="generateSpell(0)" class='game-button click'>Play Guess Game</h2>
+
 				<div class='animal'></div>
 			</div>
 
@@ -50,5 +70,6 @@
 
 		<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 		<script type='text/javascript' src='./assets/javascript/script.js'></script>
+		<script type='text/javascript' src='./assets/javascript/game.js'></script>
 	</body>
 </html>

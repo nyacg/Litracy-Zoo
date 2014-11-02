@@ -46,7 +46,8 @@ $(document).ready(function(){
 		$('#inventory').animate({right: '+=25%'});
 	});
 
-	$('.click').click(function(){
+	$(document).on("click", '.click', function(){
+		console.log("click");
 		var audio = new Audio('./assets/sounds/click.wav');
 		audio.play();
 	});
@@ -67,6 +68,7 @@ $(document).ready(function(){
 		$('#main-page').hide();
 		$('#game-page').show();
 		drawAnimal(hat, cape);
+		score = 0;
 	});
 
 	$('#i-hat').click(function(){
@@ -80,7 +82,53 @@ $(document).ready(function(){
 		$('#a-cape').show();
 		cape = true;
 	});
+
+	$(document).on("click", '.key', function(){
+		addLetter($(this).add($(this).siblings()));
+	});
+
+	$(document).on("click", '.key-holder', function(){
+		addLetter($(this).children());
+	});
+
+	$(document).on("click", '.key-letter', function(){
+		addLetter($(this).add($(this).siblings()));
+	});
 });
+
+function addLetter($key){
+	$('#answer div').each(function(){
+		if($(this).children().length == 0){
+			console.log($(this));
+			$key.appendTo($(this));
+			$key.not($(this).children()).remove();
+		}
+	});
+	checkNew();
+}
+
+function checkNew(){
+	var answerWord = "";
+	$('#answer div').each(function(){
+		answerWord = $(this).children("h2").text() + answerWord;
+	});
+
+	console.log(answerWord);
+
+	if(answerWord.length == word.length){
+		if(answerWord == word){
+			$('#message-box .message').text("Well done!");
+			level++;
+			generateWord(level);
+			score++;
+			$('#score').text("Score: " + score);
+			var audio = new Audio('./assets/sounds/getcoin.wav');
+			audio.play();
+		} else {
+			$('#message-box .message').text("Try again");
+		}
+	}
+}
 
 function setSize(){
 	var $canvas = $('#canvas');
