@@ -19,15 +19,19 @@
 				<h2>Select and name your first pet</h2>
 				<img src='./assets/images/c_icon.png' class='animal-icon' />
 				<img src='./assets/images/l_icon.png' class='animal-icon' />
-				<img src='./assets/images/c_icon.png' class='animal-icon' />
-				<img src='./assets/images/c_icon.png' class='animal-icon' />
+				<img src='./assets/images/lb_icon.png' class='animal-icon' />
+				<img src='./assets/images/h_icon.png' class='animal-icon' />
 				<input name='animal-name' id='animal-name'></input>
 				<img src='./assets/images/go.png' id='go-button-2' class='go-button'/>
 			</div>
 
 			<div id='main-page' class='hidden'>
-				<div id='animal'>
-					
+				<div id='tree-area'></div>
+				<div id='animal'></div>
+				<img src='./assets/images/inventory.png' width='5%' height='auto' id='inventory-icon'/>
+				<img src='./assets/images/coin.png' width='5%' height='auto' right='8%' id='inventory-icon'/>
+				<div id='inventory'>
+					<img src='./assets/images/c_hat1.png' width='80%'/>
 				</div>
 			</div>
 
