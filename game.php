@@ -40,7 +40,8 @@ function generateMath(difficulty) {
 }
 
 function generateVocab() {
-	var dis = document.getElementById('display');
+	var dis = document.getElementById('message');
+	document.getElementById('display').innerHTML = "";
 	var vocabulary = ["<b>supermarket</b> - is a shop selling foods and household goods", 
 	"<b>library</b> - is room in a house where books are kept, not everyone has got one", 
 	"<b>university</b> - is a school where students study for expensive degrees", 
@@ -108,7 +109,7 @@ function check(arg) {
 				}
 				if(answer == word) {
 					level = ((level + 1) % 5) + 1;
-					messageBox("Well Done, let's try a new word :-)");
+					messageBox("Well Done, new word :-)");
 					generateWord(level);
 				}
 				else {
