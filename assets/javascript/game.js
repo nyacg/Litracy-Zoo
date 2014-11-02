@@ -1,0 +1,135 @@
+var level = 1;
+var word = "";
+var mode = 0;  //0 for words, 1 for maths, 2 for spelling
+
+function generateSpell(diff) {
+	var out = "";
+	var correct = ["table", "flower", "glass", "finger", "bottle"];
+	var incorrect = ["tabel", "flowar", "glas", "fingar", "bottel"];
+	out += "A piece of furniture with a flat top<br>Which word is spelt CORRECTLY? ";
+	if(Math.random() > 0.5) {
+		out += "<input onclick=\"check(this.value)\" type=\"button\" value=\"" + correct[diff] +"\">";
+		out += "<input onclick=\"check(this.value)\" type=\"button\" value=\"" + incorrect[diff] +"\"><br>&nbsp;";
+	}
+	else {
+		out += "<input onclick=\"check(this.value)\" type=\"button\" value=\"" + incorrect[diff] +"\">";
+		out += "<input onclick=\"check(this.value)\" type=\"button\" value=\"" + correct[diff] +"\"><br>&nbsp;";
+	}
+		
+	var dis = document.getElementById('display');
+	word = correct[diff];
+	dis.innerHTML = out;
+	mode = 2;
+}
+
+function generateMath(difficulty) {
+	var out = "";
+	var first = Math.floor((Math.random() * 5) * difficulty + 1);
+	var second = Math.floor((Math.random() * 5) * difficulty + 1);
+	word = (first + second) + "";
+	out += "Solve this: " + first + " + " + second + " ";
+	out += "<input type=\"text\" id=\"l0\" onkeyup=\"maths(" + word.length + ")\">";
+	var dis = document.getElementById('display');
+	dis.innerHTML = out;
+	moveCursor(0);
+	mode = 1;
+}
+
+function generateVocab() {
+	var dis = document.getElementById('message');
+	document.getElementById('display').innerHTML = "";
+	var vocabulary = ["<b>supermarket</b> - is a shop selling foods and household goods", 
+	"<b>library</b> - is room in a house where books are kept, not everyone has got one", 
+	"<b>university</b> - is a school where students study for expensive degrees", 
+	"<b>vocabulary</b> - is a body of words used in a particular language",
+	"<b>motivation</b> - is a reason for acting or behaving in a particular way",
+	"<b>google</b> - is to search, copy, paste and claim it's your work!"];
+	rand = Math.floor((Math.random() * 6));
+	while(rand == level) {
+		rand = Math.floor((Math.random() * 6));
+	}
+	level = rand;
+	dis.innerHTML = vocabulary[level];
+}
+
+function maths(theLength) {
+	if(theLength == document.getElementById("l0").value.length) {
+		check("Argument not needed");
+	}
+}
+
+function moveCursor(id) {
+	if(id == word.length) {
+		check("Argument not used");
+	}
+	else {
+		document.getElementById("l" + id).focus();
+	}
+}
+
+function generateWord(difficulty) {
+	var words = ['apple','banana','boy','girl','sun','baloon','cherries','horse','zebra','wheel','jellyfish','moon','pig','book','popcorn','cracker','cobweb','milk','flower','snake'];
+    var levels = [2,2,1,1,1,4,5,3,3,4,5,2,1,2,4,5,4,2,3,3];
+    //words = shuffle(words);
+	var dis = document.getElementById('display');
+	var out = "";
+
+	for(i = 0; i < words.length; i++) {
+		if(levels[i] == difficulty) {
+			var w = words[i];
+			word = w;
+			out += "<img src=\"assets/images/game/" + word + ".png\" style=\"width:304px;height:328px\">";
+			out += "<input type=\"button\" value=\"Hint\">";
+			level = difficulty;
+			out += " Guess the word:";
+			for(j = 0; j < w.length; j++) {
+				out += "<input onkeyup=\"moveCursor(" + (j + 1) + ")\" type=\"text\" id=\"l" + j + "\" style=\"width:25px;\">"
+			}
+			break;
+		}
+	}
+	dis.innerHTML = out;
+	moveCursor(0);
+	mode = 0;
+}
+
+function messageBox(message) {
+	document.getElementById("message").innerHTML = message;
+}
+
+function check(arg) {
+	switch(mode) {
+		case 0: var answer = "";
+				for(i = 0; i < word.length; i++) {
+					answer += document.getElementById("l" + i).value
+				}
+				if(answer == word) {
+					level = ((level + 1) % 5) + 1;
+					messageBox("Well Done, new word :-)");
+					generateWord(level);
+				}
+				else {
+					messageBox("Sorry");
+				}
+		break;
+		case 1: if(document.getElementById("l0").value == word) {
+					messageBox("Well Done :-)");
+					level = (level + 1) % 5;
+					generateMath(level);
+				}
+				else {
+					messageBox("Try again...");
+				}
+		break;
+		case 2: if(arg == word) {
+					messageBox("Well Done :-)");
+					level = (level + 1) % 5;
+					generateSpell(level);
+					
+				}
+				else {
+					messageBox("Try again...");
+				}
+		break;
+	}
+}
