@@ -1,5 +1,4 @@
 $(document).ready(function(){
-
 	//setSize();
 	$('#name-input').focus();
 
@@ -31,6 +30,13 @@ $(document).ready(function(){
 
 	$(document).on("click", '.c-seg', function(){
 		wiggle();
+		var timeoutID = window.setTimeout(stopWiggle, 1000);
+	});
+
+	$('#tree-area').click(function(){
+		var treeSound = new Audio('./assets/sounds/tree.mp3');
+		console.log('rustle rustle');
+		treeSound.play();
 	});
 
 });
@@ -67,9 +73,16 @@ function drawAnimal(){
 }
 
 function wiggle(){
+	var audio = new Audio('./assets/sounds/wiggle.mp3');
+	audio.play();
 	console.log("shake it!");
-	$('.c-seg').not('.face').each(function(){
-		$(this).addClass('shake');
-		$(this).removeClass('shake');
+	$('.c-seg').not('.face').each(function(index){
+		$(this).addClass('shake').addClass('shake'+index);
+	});
+}
+
+function stopWiggle(){
+	$('.c-seg').each(function(index){
+		$(this).removeClass('shake').removeClass('shake'+index);
 	});
 }
