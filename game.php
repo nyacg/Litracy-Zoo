@@ -4,7 +4,27 @@
 
 var level = 1;
 var word = "";
-var mode = 0;  //0 for words, 1 for maths, 2 for vocabulary
+var mode = 0;  //0 for words, 1 for maths, 2 for spelling
+
+function generateSpell(diff) {
+	var out = "";
+	var correct = ["table", "flower", "glass", "finger", "bottle"];
+	var incorrect = ["tabel", "flowar", "glas", "fingar", "bottel"];
+	out += "A piece of furniture with a flat top<br>Which word is spelt CORRECTLY? ";
+	if(Math.random() > 0.5) {
+		out += "<input onclick=\"check(this.value)\" type=\"button\" value=\"" + correct[diff] +"\">";
+		out += "<input onclick=\"check(this.value)\" type=\"button\" value=\"" + incorrect[diff] +"\"><br>&nbsp;";
+	}
+	else {
+		out += "<input onclick=\"check(this.value)\" type=\"button\" value=\"" + incorrect[diff] +"\">";
+		out += "<input onclick=\"check(this.value)\" type=\"button\" value=\"" + correct[diff] +"\"><br>&nbsp;";
+	}
+		
+	var dis = document.getElementById('display');
+	word = correct[diff];
+	dis.innerHTML = out;
+	mode = 2;
+}
 
 function generateMath(difficulty) {
 	var out = "";
@@ -33,18 +53,17 @@ function generateVocab() {
 	}
 	level = rand;
 	dis.innerHTML = vocabulary[level];
-	mode = 2;
 }
 
 function maths(theLength) {
 	if(theLength == document.getElementById("l0").value.length) {
-		check();
+		check("Argument not needed");
 	}
 }
 
 function moveCursor(id) {
 	if(id == word.length) {
-		check();
+		check("Argument not used");
 	}
 	else {
 		document.getElementById("l" + id).focus();
@@ -75,32 +94,40 @@ function generateWord(difficulty) {
 	mode = 0;
 }
 
-function check() {
-	if(mode == 0) {
-		var answer = "";
-		for(i = 0; i < word.length; i++) {
-			answer += document.getElementById("l" + i).value
-		}
-		if(answer == word) {
-			if(level < 5) {
-				level += 1;
-			}
-			alert("Well Done, let's try a new word :-)");
-			generateWord(level);
-		}
-		else {
-			alert("Sorry");
-		}
-	}
-	else {
-		if(document.getElementById("l0").value == word) {
-			alert("Well Done");
-			level += 1;
-			generateMath(level);
-		}
-		else {
-			alert("Try again");
-		}
+function check(arg) {
+	switch(mode) {
+		case 0: var answer = "";
+				for(i = 0; i < word.length; i++) {
+					answer += document.getElementById("l" + i).value
+				}
+				if(answer == word) {
+					level = ((level + 1) % 5) + 1;
+					alert("Well Done, let's try a new word :-)");
+					generateWord(level);
+				}
+				else {
+					alert("Sorry");
+				}
+		break;
+		case 1: if(document.getElementById("l0").value == word) {
+					alert("Well Done");
+					level = (level + 1) % 5;
+					generateMath(level);
+				}
+				else {
+					alert("Try again");
+				}
+		break;
+		case 2: if(arg == word) {
+					alert("Well Done");
+					level = (level + 1) % 5;
+					generateSpell(level);
+					
+				}
+				else {
+					alert("Try again");
+				}
+		break;
 	}
 }
 
@@ -111,11 +138,13 @@ function check() {
 <div id="display">
 </div>
 
-<input onclick="generateWord(1)" type="button" name="button" value="Play Words">
+<input onclick="generateWord(1)" type="button" name="button" value="Play Word Game">
 
-<input onclick="generateMath(1)" type="button" name="button" value="Play Maths">
+<input onclick="generateMath(1)" type="button" name="button" value="Play Maths Game">
 
-<input onclick="generateVocab()" type="button" name="button" value="Play Vocabulary">
+<input onclick="generateVocab()" type="button" name="button" value="Word of the day">
+
+<input onclick="generateSpell(0)" type="button" name="button" value="Play Guess Game">
 
 </body>
 </html>
